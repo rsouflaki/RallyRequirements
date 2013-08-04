@@ -4,15 +4,6 @@ from MUTest import *
 
 class RequirementParser:
     """Parses an xsl file anAcceptance Test IDAcceptance Test IDd generates a list of requirements"""
-
-    ColumnsDict = {
-            'ID': 0, 
-            'Acceptance Test ID': 1, 
-            'Description': 2, 
-            'Date Added': 3, 
-            'Naxos Story': 4
-    }
-
     def __init__(self, fileName):
         self.currentRow = 0
         self.reqs = {}
@@ -25,36 +16,27 @@ class RequirementParser:
         self.worksheet = wb.sheet_by_index(0)
         #sh = wb.sheet_by_name(u'Sheet1')
         
-    
-    def printWorkSheet(self):
-        #Iterate through rows, returning each as a list that you can index:
-        for rownum in range(self.worksheet.nrows):
-            print self.worksheet.row_values(rownum)
 
-    def printWorkSheet2(self):
-        for rownum in range(self.worksheet.nrows):
-            row = self.worksheet.row(rownum)
-            print 'Parsing Row:', rownum
-            for colnum in range(self.worksheet.ncols):
-                # Cell Types: 0=Empty, 1=Text, 2=Number, 3=Date, 4=Boolean, 5=Error, 6=Blank
-                cell_type = self.worksheet.cell_type(rownum, colnum)
-                cell_value = self.worksheet.cell_value(rownum, colnum)
-                print ' ', cell_type, ':', cell_value
 
-    def validateHeader(self, headerStr):
-        #TODO: check that the header is as expected
-        print headerStr
-
+    ColumnsDict = {
+            'ID': 0, 
+            'Acceptance Test ID': 1, 
+            'Description': 2, 
+            'Date Added': 3, 
+            'Project 1 Story': 4
+    }
 
     def getRequirementIdColumnNumber(self):
         return self.ColumnsDict['ID']
+    
     def getDescriptionColumnNumber(self):
         return self.ColumnsDict['Description']
+    
     def getTestIdColumnNumber(self):
         return self.ColumnsDict['Acceptance Test ID']
+    
     def getDateColumnNumber(self):
         return self.ColumnsDict['Date Added']
-
 
     def getColumnNumber(self, identifier):
         return self.ColumnsDict[identifier]
@@ -71,6 +53,10 @@ class RequirementParser:
     def getDateCell(self):
         return self.worksheet.cell_value(self.currentRow, self.getDateColumnNumber())
     
+    def validateHeader(self, headerStr):
+        #TODO: check that the header is as expected
+        print headerStr
+
     EMPTY_CELL = 0
     TEXT_CELL = 1
     NUMBER_CELL = 2
@@ -109,7 +95,24 @@ class RequirementParser:
                print 'Unknown row found, assume new requirement'
                currReqId = None
 
+################# UTILS #########################################################
     def printAllRequirements(self):
         for req in self.reqs.values():
             req.printRequirement()
+    
+    def printWorkSheet(self):
+        #Iterate through rows, returning each as a list that you can index:
+        for rownum in range(self.worksheet.nrows):
+            print self.worksheet.row_values(rownum)
+
+    def printWorkSheet2(self):
+        for rownum in range(self.worksheet.nrows):
+            row = self.worksheet.row(rownum)
+            print 'Parsing Row:', rownum
+            for colnum in range(self.worksheet.ncols):
+                # Cell Types: 0=Empty, 1=Text, 2=Number, 3=Date, 4=Boolean, 5=Error, 6=Blank
+                cell_type = self.worksheet.cell_type(rownum, colnum)
+                cell_value = self.worksheet.cell_value(rownum, colnum)
+                print ' ', cell_type, ':', cell_value
+
 

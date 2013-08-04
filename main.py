@@ -17,8 +17,7 @@ def playWithRequirements():
 
 if __name__ == "__main__":
 
-    print "Hello Python"
-    fileNameXls = "/mnt/hgfs/My_Shared_VM_Folder/Requirements.xlsx"
+    fileNameXls = "Requirements.xlsx"
     parser = RequirementParser(fileNameXls)
     #parser.printWorkSheet2()
     parser.parseRequirements()
